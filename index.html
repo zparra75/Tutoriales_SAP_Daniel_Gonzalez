@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Tutoriales SAP - Práctica Interactiva</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Roboto Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sap: {
+                            blue: '#005691',
+                            darkBlue: '#0f2537',
+                            gold: '#f0ab00',
+                            lightBg: '#f4f6f9',
+                            cardBorder: '#e2e8f0',
+                            hoverBlue: '#00406e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-sap-lightBg text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Encabezado Fiori Style -->
+    <header class="bg-sap-darkBlue text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-sap-gold text-sap-darkBlue font-black px-3 py-1 rounded text-lg tracking-wider">
+                    SAP
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Portal de Prácticas e-Learning</h1>
+                    <p class="text-xs text-slate-300">Simulaciones de Transacciones en Sistema</p>
+                </div>
+            </div>
+
+            <a href="#estructura-archivos" class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg border border-slate-700 transition">
+                <i class="fa-solid fa-folder-tree text-sap-gold"></i>
+                <span>Ver Estructura de Carpetas</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+
+        <!-- Barra de Búsqueda y Filtros -->
+        <section class="bg-white p-5 rounded-2xl shadow-sm border border-sap-cardBorder flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div class="relative w-full md:w-96">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="searchInput" onkeyup="filtrarTutoriales()" placeholder="Buscar por T-Code, Título o Módulo..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-sap-blue focus:border-transparent outline-none transition">
+            </div>
+
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <span class="text-xs font-medium text-slate-500 uppercase tracking-wider hidden sm:inline">Módulo:</span>
+                <select id="moduleFilter" onchange="filtrarTutoriales()" class="w-full md:w-auto bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-sap-blue">
+                    <option value="ALL">Todos los Módulos</option>
+                    <option value="FI">FI - Finanzas</option>
+                    <option value="MM">MM - Materiales</option>
+                    <option value="SD">SD - Ventas</option>
+                    <option value="HCM">HCM - Recursos Humanos</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Grilla de Tarjetas de Tutoriales -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-sap-blue"></i>
+                    Catálogo de Prácticas Disponibles
+                </h2>
+                <span id="counterBadge" class="text-xs bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full font-semibold">
+                    0 Tutoriales
+                </span>
+            </div>
+
+            <div id="tutorialsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Se inyecta dinámicamente con JavaScript -->
+            </div>
+
+            <!-- Mensaje de no resultados -->
+            <div id="noResults" class="hidden text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300">
+                <i class="fa-solid fa-folder-open text-4xl text-slate-300 mb-3"></i>
+                <p class="text-slate-600 font-medium">No se encontraron tutoriales con ese nombre o T-Code.</p>
+                <p class="text-xs text-slate-400 mt-1">Prueba escribiendo transacciones como "FB01", "VA01" o "MM01".</p>
+            </div>
+        </section>
+
+        <!-- Guía Visual de Estructura de Carpetas para GitHub Pages -->
+        <section id="estructura-archivos" class="bg-white rounded-2xl shadow-sm border border-sap-cardBorder p-6">
+            <h3 class="text-base font-bold text-slate-800 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-sitemap text-sap-blue"></i>
+                ¿Cómo organizar las carpetas para GitHub Pages?
+            </h3>
+            <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                Para que cada botón de <strong>Práctica</strong> funcione correctamente sin errores 404, asegúrate de subir tus archivos a tu repositorio de GitHub manteniendo este orden exacto de carpetas:
+            </p>
+
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto leading-relaxed border border-slate-800">
+<span class="text-sap-gold">tu-repositorio-github/</span>  <span class="text-slate-500">(Raíz de tu proyecto)</span>
+│
+├── <span class="text-emerald-400 font-bold">index.html</span>                 <span class="text-slate-400"><-- [ESTE ARCHIVO] Portal principal con todos los accesos</span>
+│
+├── <span class="text-sky-300 font-bold">TutorialSAP_FB01FB08/</span>      <span class="text-slate-400"><-- Carpeta del Tutorial 1 (Nombre exacto en propiedad 'folder')</span>
+│   ├── <span class="text-emerald-400 font-bold">practice.html</span>          <span class="text-slate-400"><-- [REQUERIDO] Archivo ejecutado al pulsar "Iniciar Práctica"</span>
+│   ├── index.html             <span class="text-slate-500">(Opcional)</span>
+│   ├── player/                <span class="text-slate-500">(Recursos del reproductor ActivePresenter/Captivate)</span>
+│   └── resources/
+│
+├── <span class="text-sky-300 font-bold">TutorialSAP_VA01/</span>          <span class="text-slate-400"><-- Carpeta del Tutorial 2</span>
+│   ├── <span class="text-emerald-400 font-bold">practice.html</span>
+│   └── ...
+│
+└── <span class="text-sky-300 font-bold">TutorialSAP_MM01/</span>          <span class="text-slate-400"><-- Carpeta del Tutorial 3</span>
+    ├── <span class="text-emerald-400 font-bold">practice.html</span>
+    └── ...
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL REPRODUCTOR (Abre el practice.html en pantalla completa) -->
+    <div id="playerModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex flex-col justify-center items-center p-2 sm:p-4">
+        <div class="bg-white w-full max-w-6xl h-[92vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-700">
+            <!-- Modal Header -->
+            <div class="bg-sap-darkBlue px-6 py-3.5 text-white flex justify-between items-center shrink-0">
+                <div class="flex items-center space-x-3 overflow-hidden">
+                    <span id="modalTcode" class="bg-sap-gold text-sap-darkBlue font-bold text-xs px-2.5 py-1 rounded">
+                        T-CODE
+                    </span>
+                    <h3 id="modalTitle" class="font-bold text-sm sm:text-base truncate">
+                        Título del Tutorial
+                    </h3>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <a id="modalExternalLink" href="#" target="_blank" title="Abrir en nueva pestaña" class="text-slate-300 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span class="hidden sm:inline">Nueva Pestaña</span>
+                    </a>
+                    <button onclick="cerrarModal()" class="text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition text-lg">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subheader URL Display -->
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-1.5 flex items-center justify-between text-xs text-slate-500 font-mono shrink-0">
+                <div class="truncate">
+                    <i class="fa-solid fa-link text-slate-400 mr-1.5"></i>
+                    <span id="modalUrlDisplay">./carpeta/practice.html</span>
+                </div>
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold uppercase">
+                    Modo Práctica
+                </span>
+            </div>
+
+            <!-- Frame donde carga el archivo practice.html -->
+            <div class="flex-1 bg-slate-900 relative">
+                <iframe id="tutorialIframe" class="w-full h-full border-0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: Configuración de Tutoriales y Lógica de Filtrado/Apertura -->
+    <script>
+        /**
+         * =========================================================================
+         * LISTA DE TUTORIALES SAP
+         * =========================================================================
+         * INSTRUCCIONES:
+         * Para añadir un nuevo tutorial a la página:
+         * 1. Copia y pega un bloque dentro del array TUTORIALES.
+         * 2. Cambia la propiedad 'folder' por el NOMBRE EXACTO de la carpeta que
+         *    subiste a GitHub (debe contener el archivo 'practice.html').
+         * =========================================================================
+         */
+        const TUTORIALES = [
+            {
+                id: "1",
+                tcode: "FB01 / FB08",
+                title: "Creación y Anulación de Documentos Contables",
+                module: "FI",
+                // ⚠️ ESTE NOMBRE DEBE SER EL DE TU CARPETA EN GITHUB
+                folder: "TutorialSAP_FB01FB08", 
+                description: "Práctica paso a paso para el registro de documentos contables en Libro Mayor y su posterior anulación.",
+                duration: "8 min"
+            },
+            {
+                id: "2",
+                tcode: "VA01",
+                title: "Creación de Pedido de Ventas Estándar",
+                module: "SD",
+                folder: "TutorialSAP_VA01", // Cambia esto por el nombre de tu 2da carpeta
+                description: "Simulación guiada para generar órdenes de venta comercial con datos de cabecera y posición.",
+                duration: "10 min"
+            },
+            {
+                id: "3",
+                tcode: "MM01",
+                title: "Alta de Maestro de Materiales",
+                module: "MM",
+                folder: "TutorialSAP_MM01", // Cambia esto por el nombre de tu 3ra carpeta
+                description: "Creación de materiales especificando ramos, vistas de compras, almacenamiento y contabilidad.",
+                duration: "12 min"
+            },
+            {
+                id: "4",
+                tcode: "ME21N",
+                title: "Creación de Pedido de Compra (PO)",
+                module: "MM",
+                folder: "TutorialSAP_ME21N", // Nombre de tu 4ta carpeta
+                description: "Registro de órdenes de compra imputadas a centros de costo y asignación de proveedores.",
+                duration: "15 min"
+            },
+            {
+                id: "5",
+                tcode: "PA30",
+                title: "Mantenimiento de Datos de Personal",
+                module: "HCM",
+                folder: "TutorialSAP_PA30", // Nombre de tu 5ta carpeta
+                description: "Gestión interactiva de infotipos de empleados dentro del módulo de Recursos Humanos.",
+                duration: "6 min"
+            }
+        ];
+
+        // Renderizar al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            renderizarTutoriales(TUTORIALES);
+        });
+
+        /**
+         * Renderiza las tarjetas de tutoriales en la pantalla
+         */
+        function renderizarTutoriales(lista) {
+            const container = document.getElementById('tutorialsContainer');
+            const noResults = document.getElementById('noResults');
+            const counterBadge = document.getElementById('counterBadge');
+
+            container.innerHTML = '';
+            counterBadge.innerText = `${lista.length} Tutoriales`;
+
+            if (lista.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            lista.forEach(item => {
+                // Color badges según módulo
+                let badgeColor = "bg-slate-100 text-slate-700 border-slate-200";
+                if (item.module === "FI") badgeColor = "bg-blue-50 text-blue-700 border-blue-200";
+                if (item.module === "MM") badgeColor = "bg-amber-50 text-amber-700 border-amber-200";
+                if (item.module === "SD") badgeColor = "bg-emerald-50 text-emerald-700 border-emerald-200";
+                if (item.module === "HCM") badgeColor = "bg-purple-50 text-purple-700 border-purple-200";
+
+                // La ruta directa al archivo practice.html dentro de la carpeta
+                const rutaPractica = `${item.folder}/practice.html`;
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl shadow-sm hover:shadow-md border border-sap-cardBorder overflow-hidden flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5";
+
+                card.innerHTML = `
+                    <div class="p-5">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-lg border ${badgeColor}">
+                                ${item.module} • ${item.tcode}
+                            </span>
+                            <span class="text-xs text-slate-400 font-medium flex items-center gap-1">
+                                <i class="fa-regular fa-clock"></i> ${item.duration}
+                            </span>
+                        </div>
+
+                        <h3 class="font-bold text-slate-800 text-base mb-2 line-clamp-2 leading-snug">
+                            ${item.title}
+                        </h3>
+
+                        <p class="text-slate-500 text-xs mb-4 line-clamp-2 leading-relaxed">
+                            ${item.description}
+                        </p>
+
+                        <div class="bg-slate-50 rounded-lg p-2 border border-slate-100 text-[11px] font-mono text-slate-500 truncate">
+                            <i class="fa-regular fa-folder text-sap-gold mr-1"></i> ${item.folder}/practice.html
+                        </div>
+                    </div>
+
+                    <!-- ÚNICO BOTÓN: INICIAR PRÁCTICA -->
+                    <div class="bg-slate-50 px-5 py-3.5 border-t border-slate-100">
+                        <button onclick="abrirPractica('${item.folder}', '${item.title}', '${item.tcode}')" 
+                                class="w-full bg-sap-blue hover:bg-sap-hoverBlue text-white font-semibold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-sm">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Iniciar Práctica</span>
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        /**
+         * Abre la práctica en la ventana flotante (Modal)
+         */
+        function abrirPractica(folder, title, tcode) {
+            // Genera la ruta a la subcarpeta practice.html
+            const targetUrl = `${folder}/practice.html`;
+
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalTcode').innerText = tcode;
+            document.getElementById('modalUrlDisplay').innerText = `./${targetUrl}`;
+            document.getElementById('modalExternalLink').href = targetUrl;
+            
+            // Asigna la ruta al iframe
+            document.getElementById('tutorialIframe').src = targetUrl;
+
+            // Mostrar Modal
+            const modal = document.getElementById('playerModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
+         * Cierra el Modal y detiene el iframe
+         */
+        function cerrarModal() {
+            const modal = document.getElementById('playerModal');
+            modal.classList.add('hidden');
+            document.getElementById('tutorialIframe').src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        /**
+         * Filtro en tiempo real por texto o módulo
+         */
+        function filtrarTutoriales() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const selectedModule = document.getElementById('moduleFilter').value;
+
+            const resultados = TUTORIALES.filter(item => {
+                const coincideTexto = item.title.toLowerCase().includes(query) ||
+                                      item.tcode.toLowerCase().includes(query) ||
+                                      item.description.toLowerCase().includes(query) ||
+                                      item.folder.toLowerCase().includes(query);
+
+                const coincideModulo = (selectedModule === 'ALL') || (item.module === selectedModule);
+
+                return coincideTexto && coincideModulo;
+            });
+
+            renderizarTutoriales(resultados);
+        }
+    </script>
+</body>
+</html>
