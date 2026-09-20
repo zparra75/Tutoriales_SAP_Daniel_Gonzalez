@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Tutoriales SAP - Práctica Interactiva</title>
+    <title>Portal de Tutoriales SAP - Práctica Interactiva - Autor: Consultor SAP Dimas Daniel</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -77,12 +77,14 @@
                     <option value="MM">MM - Materiales</option>
                     <option value="SD">SD - Ventas</option>
                     <option value="HCM">HCM - Recursos Humanos</option>
+                    <option value="CUS">CUS - Configuraciones</option>
+                    <option value="FIO">FIO - Tutoriales Fiori</option>
                 </select>
             </div>
         </section>
 
         <!-- Grilla de Tarjetas de Tutoriales -->
-        <section>
+       <section>
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
                     <i class="fa-solid fa-list-check text-sap-blue"></i>
@@ -109,13 +111,13 @@
         <section id="estructura-archivos" class="bg-white rounded-2xl shadow-sm border border-sap-cardBorder p-6">
             <h3 class="text-base font-bold text-slate-800 mb-2 flex items-center gap-2">
                 <i class="fa-solid fa-sitemap text-sap-blue"></i>
-                ¿Cómo organizar las carpetas para GitHub Pages?
+                Guia Practica para facilitar el usu de las Operaciones en SAP
             </h3>
             <p class="text-xs text-slate-600 mb-4 leading-relaxed">
-                Para que cada botón de <strong>Práctica</strong> funcione correctamente sin errores 404, asegúrate de subir tus archivos a tu repositorio de GitHub manteniendo este orden exacto de carpetas:
+                Dar al botón de <strong>Práctica</strong> si no funciona correctamente errores 404, es porque el Curso Practico aun no está Disponible
             </p>
 
-            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto leading-relaxed border border-slate-800">
+           <!-- <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto leading-relaxed border border-slate-800">
 <span class="text-sap-gold">tu-repositorio-github/</span>  <span class="text-slate-500">(Raíz de tu proyecto)</span>
 │
 ├── <span class="text-emerald-400 font-bold">index.html</span>                 <span class="text-slate-400"><-- [ESTE ARCHIVO] Portal principal con todos los accesos</span>
@@ -133,7 +135,7 @@
 └── <span class="text-sky-300 font-bold">TutorialSAP_MM01/</span>          <span class="text-slate-400"><-- Carpeta del Tutorial 3</span>
     ├── <span class="text-emerald-400 font-bold">practice.html</span>
     └── ...
-            </div>
+            </div> -->
         </section>
 
     </main>
@@ -206,20 +208,20 @@
             },
             {
                 id: "2",
-                tcode: "VA01",
-                title: "Creación de Pedido de Ventas Estándar",
-                module: "SD",
-                folder: "TutorialSAP_VA01", // Cambia esto por el nombre de tu 2da carpeta
-                description: "Simulación guiada para generar órdenes de venta comercial con datos de cabecera y posición.",
+                tcode: "F110",
+                title: "Creación de Propuesta de Pago",
+                module: "FI",
+                folder: "TutorialSAP_F110", // Cambia esto por el nombre de tu 2da carpeta
+                description: "Simulación guiada para generar propuesta de pagos.",
                 duration: "10 min"
             },
             {
                 id: "3",
-                tcode: "MM01",
-                title: "Alta de Maestro de Materiales",
-                module: "MM",
-                folder: "TutorialSAP_MM01", // Cambia esto por el nombre de tu 3ra carpeta
-                description: "Creación de materiales especificando ramos, vistas de compras, almacenamiento y contabilidad.",
+                tcode: "FB50",
+                title: "Asiento Contable Cuenta de Mayor",
+                module: "FI",
+                folder: "TutorialSAP_FB50", // Cambia esto por el nombre de tu 3ra carpeta
+                description: "Creación de Asiento Contable para cuenta de Mayor.",
                 duration: "12 min"
             },
             {
